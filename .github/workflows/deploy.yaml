@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            docker stop samplephp || true
-            docker rm samplephp || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/samplephp:${{ github.sha }}
-            docker run -d --name samplephp -p 80:80 ${{ secrets.DOCKER_USERNAME }}/samplephp:${{ github.sha }}
+            docker stop lnscicd || true
+            docker rm lnscicd || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/lnscicd:${{ github.sha }}
+            docker run -d --name lnscicd -p 80:80 ${{ secrets.DOCKER_USERNAME }}/lnscicd:${{ github.sha }}
