@@ -33,7 +33,10 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            docker stop lnscicd || true
-            docker rm lnscicd || true
+            if docker ps -a | grep lnscicd; then    
+              docker stop lnscicd || true
+              docker rm lnscicd || true
+            fi
+            
             docker pull ${{ secrets.DOCKER_USERNAME }}/lnscicd:${{ github.sha }}
             docker run -d --name lnscicd -p 80:80 ${{ secrets.DOCKER_USERNAME }}/lnscicd:${{ github.sha }}
