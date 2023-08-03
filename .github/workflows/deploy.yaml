@@ -35,5 +35,5 @@ jobs:
           script: |
             docker stop samplephp || true
             docker rm samplephp || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/webapp:${{ github.sha }}
-            docker run -d --name webapp -p 80:80 ${{ secrets.DOCKER_USERNAME }}/webapp:${{ github.sha }}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/samplephp:${{ github.sha }}
+            docker run -d --name webapp -p 80:80 ${{ secrets.DOCKER_USERNAME }}/samplephp:${{ github.sha }}
