@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-test-deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest  # Change the runs-on field to a GitHub-hosted runner
 
     steps:
       - name: Checkout code
@@ -26,4 +26,14 @@ jobs:
           push: true
           tags: sahaskasha/samplephp:${{ github.sha }}
           
-     
+      - name: Deploy to EC2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            docker stop samplephp || true
+            docker rm samplephp || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/samplephp:${{ github.sha }}
+            docker run -d --name samplephp -p 80:80 ${{ secrets.DOCKER_USERNAME }}/samplephp:${{ github.sha }}
